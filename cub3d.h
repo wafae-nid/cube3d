@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 02:53:03 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/09/07 05:24:28 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/09/07 22:24:19 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,6 @@ void	*ft_memcpy(void *dst, const void *src, size_t n);
 size_t	ft_strlen2(const char *str, char *temp);
 int 	is_valid_char(char c);
 char	*ft_strtrim(const char *s1, const char *set);
+size_t	ft_strlcpy(char *dest, const char *src, size_t size);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 17:18:14 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/09/07 06:19:13 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/09/07 22:38:27 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int ft_strlen(const char *str)
 
     i = 0;
     if (!str)
-        return(-1);
+        return(0);
     while(str[i])
     {
         i++;
@@ -57,7 +57,7 @@ int parse_frame(t_plines *res)
     i = 0;
     while((res->line)[i])
     {
-        if((res->line)line[i] != '1' && (res->line)line[i] != ' ')
+        if((res->line)[i] != '1' && (res->line)[i] != ' ')
         {
             return(0);
         }
@@ -86,20 +86,21 @@ int max_len(char *prev_line, char *next, char *line)
 char *pad_line(int max, char *line)
 {
     int len;
-    int diff;
     char  *padded;
 
     len = ft_strlen(line);
-    diff = max - len;
-    padded = gcmalloc(max, 1);
+    if(len == max)
+        return(line);
+    padded = gcmalloc(max + 1 , 1);
     if(!padded)
         return(NULL);
-    while(diff < max)
+    ft_strlcpy(padded, line, len + 1);
+    while(len  < max)
     {
-        padded[diff]=' ';
-        diff++;
+        padded[len]=' ';
+        len++;
     }
-    padded[diff] = '\0';
+    padded[len] = '\0';
     return(padded);
 }
 
@@ -166,10 +167,14 @@ int lineparssing(char *line, char *next, int first)
     trimmed = ft_strtrim(line, " \t\n\v\f\r\n");
     next_ = ft_strtrim(next," \t\n\v\f\r\n");
     res = padding(prev_line, next_, trimmed);
+    printf("{%s}\n",res->line);
+    printf("[%s]\n",res->prev);
+    printf("(%s)\n",res->next);
+    printf("********\n");
     prev_line = trimmed;
     if(!res)
         return(0);
-    if(!next_ | ft_strlen(next_) = 0 || first == 1)
+    if(!next_ || ft_strlen(next_) == 0 || first == 1)
         return(parse_frame(res));
     else
         return(parse_inside(res));
@@ -210,7 +215,8 @@ int main(int argc, char **argv)
         fd = open(argv[1], O_RDONLY);
         if(fd >= 0)
         {
-            printf("%d\n",parssing(fd));
+            // printf("%d\n",parssing(fd));
+            parssing(fd);
         
         }
         else
