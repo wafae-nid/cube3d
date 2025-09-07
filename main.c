@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 17:18:14 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/09/07 06:10:25 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/09/07 06:19:13 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,16 @@ int valid_map_chars(char *line)
     return(1);
 }
 
-int parse_frame(char *line)
+int parse_frame(t_plines *res)
 {
     int i;
 
+    if(!res)
+        return(0);
     i = 0;
-    while(line[i])
+    while((res->line)[i])
     {
-        if(line[i] != '1' && line[i] != ' ')
+        if((res->line)line[i] != '1' && (res->line)line[i] != ' ')
         {
             return(0);
         }
@@ -132,29 +134,27 @@ t_plines *padding(char *prev_line, char *next, char *line)
    return(res);  
 }
 
-// int parse_inside(char *line, char *next)
-// {
-//     int i;
-//     size_t len;
-//     static char *prev_line;
-//     t_plines *res;
+int parse_inside(t_plines  *res)
+{
+    int i;
+    size_t len;
     
-//     i = 0;
-//     // res = padding(prev_line, next, line);
-//     prev_line = line;
-//     len = ft_strlen(res->line);
+    if(!res)
+        return(0);
     
-//     if(!valid_map_chars(res->line))
-//         return(0);
-//     if(res->line[0] || res->line[len - 1] != 1)
-//         return(0);
-//     else
-//     {
-//         i = 1;
-//         return(1);
-//     }
+    i = 0;
+    len = ft_strlen(res->line);
+    if(!valid_map_chars(res->line))
+        return(0);
+    if(res->line[0] || res->line[len - 1] != 1)
+        return(0);
+    else
+    {
+        i = 1;
+        return(1);
+    }
     
-// }
+}
 
 int lineparssing(char *line, char *next, int first)
 {
@@ -163,21 +163,16 @@ int lineparssing(char *line, char *next, int first)
     static char     *prev_line;
     t_plines        *res;
     
-    (void)first;
     trimmed = ft_strtrim(line, " \t\n\v\f\r\n");
     next_ = ft_strtrim(next," \t\n\v\f\r\n");
     res = padding(prev_line, next_, trimmed);
     prev_line = trimmed;
-    if(!trimmed)
+    if(!res)
         return(0);
-    // if(!next || ft_strlen(next) == 0 || first == 1)
-    // {
-    //     return(parse_frame(trimmed));
-    // }
-    // else
-    // {
-    //     return(parse_inside(trimmed, next));
-    // }
+    if(!next_ | ft_strlen(next_) = 0 || first == 1)
+        return(parse_frame(res));
+    else
+        return(parse_inside(res));
     return(1);
 }
  
