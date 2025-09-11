@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 17:18:14 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/09/10 19:04:27 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/09/11 18:29:37 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,9 @@ int parse_frame(t_plines *res, int *player)
     while((res->line)[i] && res->line[i] != '\n')
     {
         if((res->line)[i] != '1' && (res->line)[i] != ' ')
-        {
-            return(0);
-        }
+            return(-1);
+        else if((res->line)[i] == ' ' && !space_checking(res, i))
+            return(-1);
         i++;
     }
     return(1);
@@ -117,29 +117,16 @@ t_plines *padding(char *prev_line, char *next, char *line)
    
    
    max = max_len(prev_line, next, line);
+   (void)longest_m_line(max);
    res = gcmalloc(sizeof(t_plines),1);
    if(!res)
         return(NULL);
-    if(max == ft_strlen(prev_line))
-    {
-        res->prev = pad_line(max,prev_line);
-        res->line = pad_line(max, line);
-        res->next = pad_line(max, next);
-    }
-    else if(max == ft_strlen(line))
-    {
-        res->prev = pad_line(max, prev_line);
-        res->line = pad_line(max,line);
-        res->next = pad_line(max, next);
-    }
-    else if(max == ft_strlen(next))
-    {
-        res->prev = pad_line(max,prev_line);
-        res->line = pad_line(max,line);
-        res->next = pad_line(max, next);  
-    }
+    res->prev = pad_line(max,prev_line);
+    res->line = pad_line(max, line);
+    res->next = pad_line(max, next);
    return(res);  
 }
+
 int space_valid_adj(char c)
 {
     if(c == '0' || c == 'N' || c == 'S' || c == 'E' || c == 'W')
@@ -192,6 +179,7 @@ int parse_inside(t_plines  *res, int *player)
             (*player)++;
         i++;
     }
+    
     if(i-1 >=0 && res->line[i-1] != '1')
         return(-1);
     return(1);
@@ -209,66 +197,34 @@ int lineparssing(char *line, char *next, int first, int *player)
     if(!next || first == 1)
         return(parse_frame(res, player));
     else
-    {
         return(parse_inside(res, player));
-    }
     return(1);
 }
  
     
-int map_parssing(int fd)
+int map_parssing(int fd, char *first_line)
 {
     char *line;
     char *next;
     int  flag;
     static int player;
     
-    line = get_next_line(fd);
+    line = first_line;
     if (!line)
         return(0);
     flag = 0;
     while(is_it_map(line))
     {
-        printf("{%s\n", line);
+        (void)width(0);
         next = get_next_line(fd);
         flag++;
         if(lineparssing(line, next, flag, &player) == -1)
+        {
             return(0);
+        }
         line = next;
     }
     if(player != 1)
         return(0);
     return(1);
 }
-
-// int main(int argc, char **argv)
-// {
-//     int fd;
-    
-//     if(argc == 2)
-//     {
-//         fd = open(argv[1], O_RDONLY);
-//         if(fd >= 0)
-//         {
-//             if(!map_parssing(fd))
-//             {
-//                 printf("enter a valid map/config file\n");
-//                 return(1);
-//             }
-//             else
-//             {
-//                 printf("work starts here\n");
-//             }
-//         }
-//         else
-//         {
-//            printf("enter a valid map/config file\n");
-//            return(1);
-//         }
-//     }
-//     else
-//     {
-//         printf("enter a valid map/config file\n");
-//         return(1);
-//     }
-// }

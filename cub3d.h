@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 02:53:03 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/09/10 17:38:34 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/09/11 18:41:44 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,30 @@ typedef struct s_identifiers
     int c;
 } t_identifiers;
 
-int	ft_strlen(const char *str);
+
+typedef struct s_color
+{
+    int             c_color;
+    int             f_color;
+}   t_color;
+
+typedef struct s_map
+{
+    char        **line;
+    int         heigh;
+    int         width;
+}  t_map;
+
+typedef struct s_config
+{
+    
+    char   **texture;
+    t_color     *color;
+    t_map       *map;
+} t_config;
+
+
+int	    ft_strlen(const char *str);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
 char	*custom_strdup(const char	*s1);
 void	*gcmalloc(size_t size, int status_flag);
@@ -58,12 +81,14 @@ int     is_valid_char(char c, char *line, int i);
 char	*ft_strtrim(const char *s1, const char *set);
 size_t	ft_strlcpy(char *dest, const char *src, size_t size);
 char	**custom_split(const char *s, char c, int pid);
-int 	map_parssing(int fd);
 int	    count_words(const char *s, char c);
 int	    ft_atoi(const char *str);
 int	    ft_isdigit(int c);
-int     map_parssing(int fd);
+int     map_parssing(int fd, char *first_line);
 int     is_it_map(char *line);
 int     ft_strcmp(const char *s1, const char *s2);
+int     space_checking(t_plines *res, int i);
+int     lengh(int len);
+int     width(int i);
 
 #endif

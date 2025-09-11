@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 11:04:29 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/09/10 19:05:56 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/09/11 19:07:13 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,10 +192,10 @@ int config_parsser(char *line, t_identifiers *identifiers)
     char **splitted;
     char *trimmed;
 
+    if(!line)
+        return(0);
     trimmed = ft_strtrim(line,"  \n");
     if(!trimmed)
-        return(0);
-    if(!line)
         return(0);
     else if(!ft_strcmp(trimmed,""))
         return(1);
@@ -236,7 +236,6 @@ int parssing(int fd)
     char *line;
     t_identifiers *identifiers;
     
-
     identifiers = gcmalloc(sizeof(t_identifiers),0);
     if(!identifiers)
         return(0);
@@ -256,6 +255,7 @@ int parssing(int fd)
             return(0);
         printf("[%s\n", line);
         line = get_next_line(fd);
+        
     }
     if(!identifiers->no || !identifiers->so 
         || !identifiers->we || !identifiers->ea 
@@ -263,7 +263,7 @@ int parssing(int fd)
     {
         return(0);
     }
-    if(!map_parssing(fd))
+    if(!map_parssing(fd, line))
         return(0);
     line = get_next_line(fd);
     while(line)
@@ -276,9 +276,80 @@ int parssing(int fd)
     
 }
 
+int  lengh(int len)
+{
+    static int llen;
+
+    if(len > llen)
+    {
+        llen = len;
+    }
+    return(llen); 
+}
+int width(int i)
+{
+    static int width;
+
+    if(i< 0)
+        return(width);
+    else
+    {
+        width++;
+        return(width);
+    }
+}
+
+t_map  *alloc_map(void)
+{
+    int     width;
+    int     len;
+    t_map  *map;
+    int     i;
+    
+    width = width(-1);
+    len = lengh(-1);
+    map = gcmalloc(sizeof(t_map));
+    if(!map)
+        return(NULL);
+    map->line = gcmalloc((width + 1)*sizeof(char *));
+    if(!map->line)
+        return(NULL);
+    i = 0
+    while(i < width + 1)
+    {
+        map->line[i] = gcmalloc(len -1);
+            i++;
+    }
+    map->line[i] = NULL;
+    return(map);
+}
+
+t_config *config_struct(char *file)
+{
+    int fd;
+    t_config    *config;
+    
+    fd = open(argv[1], O_RDONLY);
+    config = gcmalloc(sizeof(t_config));
+    if (!config)
+        return(NULL);
+    else
+    {
+       config->map = alloc_map();
+       if(!config->map)
+        return(NULL);
+        config->texture = gcmalloc(5 *(sizeof(char *)))
+        if(!config->texture)
+            return(NULL);
+        
+        
+    }  
+}
+
 int main(int argc, char **argv)
 {
     int fd;
+    // t_config    *config;
     
     if(argc == 2)
     {
@@ -292,8 +363,9 @@ int main(int argc, char **argv)
             }
             else
             {
-                printf("work starts here\n");
-                return(0);
+               printf("%d\n", longest_m_line(-1));
+               printf("%d\n", width(-1));
+               return(0);
             }
         }
         else
