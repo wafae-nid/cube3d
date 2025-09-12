@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 17:18:14 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/09/11 18:29:37 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/09/12 17:50:58 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ t_plines *padding(char *prev_line, char *next, char *line)
    
    
    max = max_len(prev_line, next, line);
-   (void)longest_m_line(max);
+   (void)lengh(max);
    res = gcmalloc(sizeof(t_plines),1);
    if(!res)
         return(NULL);
@@ -179,7 +179,6 @@ int parse_inside(t_plines  *res, int *player)
             (*player)++;
         i++;
     }
-    
     if(i-1 >=0 && res->line[i-1] != '1')
         return(-1);
     return(1);

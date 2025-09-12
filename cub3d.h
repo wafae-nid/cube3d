@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 02:53:03 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/09/11 18:41:44 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/09/12 16:46:06 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,5 +90,7 @@ int     ft_strcmp(const char *s1, const char *s2);
 int     space_checking(t_plines *res, int i);
 int     lengh(int len);
 int     width(int i);
+char	*ft_strdup_(const char *s1);
+char    *pad_line(int max, char *line);
 
 #endif
